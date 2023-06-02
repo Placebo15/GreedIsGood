@@ -9,14 +9,14 @@ contract GreedIsGood is ERC721A, Ownable {
     using Strings for uint256;
 
     uint256 public MAX_SUPPLY = 444;
-    uint256 public SALE_PRICE = .00444 ether;
-    uint256 public MAX_MINT = 2;
+    uint256 public SALE_PRICE = .004 ether;
+    uint256 public MAX_MINT = 4;
     bool public mintStarted = false;
     string public baseURI =
-        "ipfs://QmcNHdTeNY2Cgx2Sho6tW5mZY1NcUNvCuHnppkAmAGqUyW/";
+        "ipfs://QmX6B3CphJJHF4x8yMXMAy3LsPj2KWLK7sSCU6UmESSbZx/";
     mapping(address => uint256) public walletMintCount;
 
-    constructor() ERC721A("Greed is good", "GIG") {}
+    constructor() ERC721A("GreedIsGood", "GIG") {}
 
     function mint(uint256 _quantity) external payable {
         require(mintStarted, "Mint hasn't started yet.");
