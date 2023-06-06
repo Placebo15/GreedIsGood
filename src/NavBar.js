@@ -7,13 +7,22 @@ const NavBar = ({ accounts, setAccounts }) => {
     const isConnected = Boolean(accounts[0]);
 
     async function connectAccount() {
-        if (window.ethereum) {
+        if (!window.ethereum) {
+            alert("Please install an Ethereum wallet extension like MetaMask to connect your account.");
+            return;
+        }
+
+        try {
             const accounts = await window.ethereum.request({
                 method: "eth_requestAccounts",
             });
             setAccounts(accounts);
+        } catch (error) {
+            console.error("Error connecting to Ethereum account:", error);
+            // Display or handle the error as desired
         }
     }
+
 
 
     return (
@@ -33,7 +42,7 @@ const NavBar = ({ accounts, setAccounts }) => {
                     href="https://twitter.com/NFTcollection11"
                     color="gold"
                     position="absolute"
-                    top="-20px"
+                    top="20px"
                     fontSize="25px"
                     fontFamily="elevon, sans-serif"
                     right="740px"
@@ -50,7 +59,7 @@ const NavBar = ({ accounts, setAccounts }) => {
                     href="https://etherscan.io/address/0x76b4ef74ac768cd9acc235ad2e3e5fb327836b73#writeContract"
                     color="gold"
                     position="absolute"
-                    top="-20px"
+                    top="20px"
                     fontSize="25px"
                     fontFamily="elevon, sans-serif"
                     right="350px"
@@ -63,7 +72,7 @@ const NavBar = ({ accounts, setAccounts }) => {
                     href="https://opensea.io/collection/greedisgoods"
                     color="gold"
                     position="absolute"
-                    top="-20px"
+                    top="20px"
                     fontSize="25px"
                     right="550px"
                     fontFamily="elevon, sans-serif"
@@ -92,7 +101,7 @@ const NavBar = ({ accounts, setAccounts }) => {
                         width="200px"
                         height="80px"
                         position="absolute"
-                        top="-20px"
+                        top="20px"
                         right="30px"
                         onClick={connectAccount}>Connect</Button>
                 )}
