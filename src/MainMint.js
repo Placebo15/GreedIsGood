@@ -1,122 +1,113 @@
-import { useState } from 'react';
-import { ethers, BigNumber } from 'ethers';
-import GreedIsGood from "./GreedIsGood.json";
-import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import React from "react";
+import { Box, Button, Flex, Link, } from "@chakra-ui/react";
+
 import "./style.css";
 
-
-
-
-
-const GreedIsGoodAddress = "0x76B4EF74ac768CD9aCC235Ad2e3E5Fb327836B73"
-
-
-const MainMint = ({ accounts, setAccounts }) => {
-    const [mintAmount, setMintAmount] = useState(1);
+const NavBar = ({ accounts, setAccounts }) => {
     const isConnected = Boolean(accounts[0]);
 
+    async function connectAccount() {
+        if (!window.ethereum) {
+            alert("Please install an Ethereum wallet extension like MetaMask to connect your account.");
+            return;
+        }
 
-    async function handleMint() {
-        if (window.ethereum) {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(
-                GreedIsGoodAddress,
-                GreedIsGood.abi,
-                signer
-            );
-            try {
-                const response = await contract.mint(BigNumber.from(mintAmount), {
-                    value: ethers.utils.parseEther((0.004 * mintAmount).toString()),
-                });
-                console.log("response: ", response);
-
-            } catch (err) {
-                console.log("error: ", err)
-            }
+        try {
+            const accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            });
+            setAccounts(accounts);
+        } catch (error) {
+            console.error("Error connecting to Ethereum account:", error);
+            // Display or handle the error as desired
         }
     }
 
-    const handleDecrement = () => {
-        if (mintAmount <= 1) return;
-        setMintAmount(mintAmount - 1);
-    }
 
-    const handleIncrement = () => {
-        if (mintAmount > 3) return;
-        setMintAmount(mintAmount + 1);
-    };
 
     return (
-        <Flex justify="center" allign="center" >
+        <Flex justify="space-between" allign="center" padding="30px">
+            {/* left side, social media icons*/}
+            <Flex justify="space-around" width="20%" padding="0 75px">
+                {/*  <Link href="https://www.facebook.com">
+                <Image src= {Facebook} boxSize="42px" margin="0 15px"/>
+            </Link>
+            <Link href="https://www.gmail.com">
+                <Image src= {Email} boxSize="42px" margin="0 15px"/>
+            </Link>*/}
+                <Link
+                    target="_blank"
+                    style={{ textDecoration: 'none' }}
+                    id="twitter"
+                    href="https://twitter.com/NFTcollection11"
+                    color="gold"
+                    position="absolute"
+                    top="-20px"
+                    fontSize="25px"
+                    fontFamily="elevon, sans-serif"
+                    right="740px"
+                >
+
+                    Twitter</Link>
+            </Flex>
+            {/* right side, connect and section*/}
+            <Flex>
+                <Link
+                    target="_blank"
+                    style={{ textDecoration: 'none' }}
+                    id="ether"
+                    href="https://etherscan.io/address/0x76b4ef74ac768cd9acc235ad2e3e5fb327836b73#writeContract"
+                    color="gold"
+                    position="absolute"
+                    top="-20px"
+                    fontSize="25px"
+                    fontFamily="elevon, sans-serif"
+                    right="350px"
+                >Etherscan</Link>
+
+                <Link
+                    target="_blank"
+                    id="opensea"
+                    style={{ textDecoration: 'none' }}
+                    href="https://opensea.io/collection/greedisgoods"
+                    color="gold"
+                    position="absolute"
+                    top="-20px"
+                    fontSize="25px"
+                    right="550px"
+                    fontFamily="elevon, sans-serif"
+                >OpenSea</Link>
+                {/* Connect*/}
                 {isConnected ? (
-                    <div>
-                        <Flex justify="center" allign="center">
-                            <Button
-                                id='btn4'
-                                backgroundColor="rgba(241, 239, 124, 0.3)"
-                                borderRadius="5px"
-                                boxShadow="0px 2px 2px 1px #0F0F0F"
-                                color="white"
-                                cursor="pointer"
-                                fontFamily="elevon, sans-serif"
-                                padding="15px"
-                                marginTop="10px"
-                                onClick={handleDecrement}>-</Button>
-
-                            <Input
-                                readOnly
-                                fontSize="30px"
-                                fontFamily="elevon, sans-serif"
-                                width="100px"
-                                height="40px"
-                                textAlign="center"
-                                paddingLeft="19px"
-                                marginTop="10px"
-                                type="number"
-                                value={mintAmount} />
-                            <Button
-                                id='btn3'
-                                backgroundColor="rgba(241, 239, 124, 0.3)"
-                                borderRadius="5px"
-                                boxShadow="0px 2px 2px 1px #0F0F0F"
-                                color="white"
-                                cursor="pointer"
-                                fontFamily="elevon, sans-serif"
-                                padding="15px"
-                                marginTop="10px"
-                                onClick={handleIncrement}>+</Button>
-
-                        </Flex>
-                        <Text color="white" fontSize="25px" margin="20px" >Price:0.004ETH! </Text>
-                        <Button
-                            id='btn2'
-                            backgroundColor="rgba(241, 239, 124, 0.3)"
-                            borderRadius="5px"
-                            boxShadow="0px 2px 2px 1px #0F0F0F"
-                            color="black"
-                            cursor="pointer"
-                            fontFamily="elevon, sans-serif"
-                            padding="20px"
-                            marginTop="20px"
-                            width="200px"
-                            fontSize="30px"
-                            onClick={handleMint}>Mint Now</Button>
-
-                    </div>
-                ) : (
-                    <Text
-                        marginTop="70px"
-                        fontSize="30px"
-                        letterSpacing="-5.5%"
+                    <Box
+                        color="rgba(241, 239, 124, 0.3)"
                         fontFamily="elevon, sans-serif"
-                        textShadow="0 3px #000000"
-                        color= "white"
-                        >You must be connected to Mint</Text>
+                        position="absolute"
+                        top="30px"
+                        right="30px"
+                    >Connected</Box>
+                ) : (
+                    <Button
+                        id="btn1"
+                        backgroundColor="rgba(241, 239, 124, 0.3)"
+                        borderRadius="5px"
+                        boxShadow="0px 2px 2px 1px #0F0F0F"
+                        color="white"
+                        cursor="pointer"
+                        fontFamily="elevon, sans-serif"
+                        fontSize="30px"
+                        padding="15px"
+                        margin="0 15px"
+                        width="200px"
+                        height="80px"
+                        position="absolute"
+                        top="-20px"
+                        right="30px"
+                        onClick={connectAccount}>Connect</Button>
                 )}
-            
+            </Flex>
         </Flex>
     );
 };
 
-export default MainMint;
+export default NavBar;
