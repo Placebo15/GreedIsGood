@@ -91,6 +91,24 @@ const spaceTexture = new THREE.TextureLoader().load("backgr.png");
 spaceTexture.encoding = THREE.sRGBEncoding; // Adjust the encoding if needed
 scene.background = spaceTexture;
 
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(width, height);
+camera.aspect = width / height;
+camera.updateProjectionMatrix();
+
+// Update size on window resize
+window.addEventListener("resize", () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(width, height);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+});
+
 // Avatar
 
 const frontTexture = new THREE.TextureLoader().load("jeff.png");
@@ -211,19 +229,7 @@ function animate() {
 
 }
 
-document.getElementById("mute-btn").addEventListener("click", function () {
-  var audio = document.getElementById("bg-music");
-  const audioElement = document.querySelector('#bg-music');
 
-  audioElement.autoplay = true;
-  if (audio.muted) {
-    audio.muted = false;
-    this.innerHTML = "<img src=\"mute.png\" width=\"60px\" height=\"60px\">"
-  } else {
-    audio.muted = true;
-    this.innerHTML = "<img src=\"unmute.png\" width=\"60px\" height=\"60px\">"
-  }
-});
 
 
 
